@@ -4,8 +4,13 @@ package document;
  * A class that represents a text document
  * @author UC San Diego Intermediate Programming MOOC team
  */
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -67,7 +72,29 @@ public abstract class Document {
 		// TODO: Implement this method so that you can call it from the 
 	    // getNumSyllables method in BasicDocument (module 1) and 
 	    // EfficientDocument (module 2).
-	    return 0;
+		Set<Character> vowels = new HashSet<>();
+		vowels.add('a');
+		vowels.add('e');
+		vowels.add('y');
+		vowels.add('o');
+		vowels.add('i');
+		vowels.add('u');
+		String lowerCaseWord = word.toLowerCase();
+		int syllablesCounter = 0;
+		char lastSymbol = ' ';
+		for (int i = 0; i < lowerCaseWord.length(); ++i) {
+			char ch = lowerCaseWord.charAt(i);
+			if (vowels.contains(ch)) {
+				if (!(i == lowerCaseWord.length() - 1 && ch == 'e' || lastSymbol == ch || vowels.contains(lastSymbol))) {
+					syllablesCounter++;
+				}
+			}
+			lastSymbol = ch;
+		}
+		if (syllablesCounter == 0 && lowerCaseWord.endsWith("e")) {
+			return 1;
+		}
+	    return syllablesCounter;
 	}
 	
 	/** A method for testing
@@ -131,9 +158,8 @@ public abstract class Document {
 	public double getFleschScore()
 	{
 	    // TODO: Implement this method in week 1
-	    return 0.0;
+		double res = 206.835 - 1.015 * (getNumWords() * 1.0 / getNumSentences()) - 84.6 * (getNumSyllables() * 1.0 / getNumWords());
+	    return new BigDecimal(res).setScale(1, RoundingMode.HALF_UP).doubleValue();
 	}
-	
-	
 	
 }
