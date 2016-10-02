@@ -3,12 +3,12 @@
  */
 package textgen;
 
-import static org.junit.Assert.*;
-
-import java.util.LinkedList;
-
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * @author UC San Diego MOOC team
@@ -21,7 +21,11 @@ public class MyLinkedListTester {
 	MyLinkedList<String> shortList;
 	MyLinkedList<Integer> emptyList;
 	MyLinkedList<Integer> longerList;
-	MyLinkedList<Integer> list1;
+	MyLinkedList<Integer> testRemoveList;
+	MyLinkedList<Integer> testAddEndList;
+	MyLinkedList<Integer> testSizeList;
+	MyLinkedList<Integer> testAddAtIndexList;
+	MyLinkedList<Integer> testSetList;
 	
 	/**
 	 * @throws java.lang.Exception
@@ -38,10 +42,26 @@ public class MyLinkedListTester {
 		{
 			longerList.add(i);
 		}
-		list1 = new MyLinkedList<Integer>();
-		list1.add(65);
-		list1.add(21);
-		list1.add(42);
+		testRemoveList = new MyLinkedList<Integer>();
+		testRemoveList.add(65);
+		testRemoveList.add(21);
+		testRemoveList.add(42);
+		testAddEndList = new MyLinkedList<>();
+		testAddEndList.add(65);
+		testAddEndList.add(21);
+		testAddEndList.add(42);
+		testSizeList = new MyLinkedList<>();
+		testSizeList.add(65);
+		testSizeList.add(21);
+		testSizeList.add(42);
+		testAddAtIndexList = new MyLinkedList<>();
+		testAddAtIndexList.add(65);
+		testAddAtIndexList.add(21);
+		testAddAtIndexList.add(42);
+		testSetList = new MyLinkedList<>();
+		testSetList.add(65);
+		testSetList.add(21);
+		testSetList.add(42);
 		
 	}
 
@@ -109,30 +129,47 @@ public class MyLinkedListTester {
 	@Test
 	public void testRemove()
 	{
-		int a = list1.remove(0);
+		int a = testRemoveList.remove(0);
 		assertEquals("Remove: check a is correct ", 65, a);
-		assertEquals("Remove: check element 0 is correct ", (Integer)21, list1.get(0));
-		assertEquals("Remove: check size is correct ", 2, list1.size());
+		assertEquals("Remove: check element 0 is correct ", (Integer)21, testRemoveList.get(0));
+		assertEquals("Remove: check size is correct ", 2, testRemoveList.size());
 		
-		// TODO: Add more tests here
+		int b = testRemoveList.remove(1);
+		assertEquals("Remove chek b is correct ", 42, b);
+		assertEquals("Remove: check element 0 is correct ", (Integer)21, testRemoveList.get(0));
+		assertEquals("Remove: check size is correct ", 1, testRemoveList.size());
+	}
+
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testRemoveIOBExcLow() {
+		testRemoveList.remove(-5);
+	}
+
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testRemoveIOBExcHigh() {
+		testRemoveList.remove(1000);
 	}
 	
 	/** Test adding an element into the end of the list, specifically
 	 *  public boolean add(E element)
 	 * */
 	@Test
-	public void testAddEnd()
-	{
-        // TODO: implement this test
-		
+	public void testAddEnd() {
+		testAddEndList.add(25);
+		Assert.assertTrue(testAddEndList.get(3).equals(25));
 	}
 
+	@Test(expected = NullPointerException.class)
+	public void testAddEndNullElement() {
+		testAddEndList.add(null);
+	}
 	
 	/** Test the size of the list */
 	@Test
-	public void testSize()
-	{
-		// TODO: implement this test
+	public void testSize() {
+		testSizeList.remove(0);
+		testSizeList.add(25);
+		Assert.assertTrue(testSizeList.size() == 3);
 	}
 
 	
@@ -142,21 +179,37 @@ public class MyLinkedListTester {
 	 * public void add(int index, E element)
 	 * */
 	@Test
-	public void testAddAtIndex()
-	{
-        // TODO: implement this test
+	public void testAddAtIndex() {
+		testAddAtIndexList.add(3, 25);
+        Assert.assertTrue(testAddAtIndexList.get(3) == 25);
 		
+	}
+
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testAddAtIndexMethodOnIOBExcLow() {
+		testAddAtIndexList.add(-1, 3);
+	}
+
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testAddAtIndexMethodOnIOBExcHigh() {
+		testAddAtIndexList.add(1000, 3);
 	}
 	
 	/** Test setting an element in the list */
 	@Test
-	public void testSet()
-	{
-	    // TODO: implement this test
-	    
+	public void testSet() {
+		testSetList.set(1, 2016);
+		Assert.assertTrue(testSetList.get(1) == 2016);
 	}
-	
-	
-	// TODO: Optionally add more test methods.
-	
+
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testSetMethotOnIOBExcLow() {
+		testSetList.set(-2, 3);
+	}
+
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testSetMethotOnIOBExcHigh() {
+		testSetList.set(1000, 3);
+	}
+
 }
