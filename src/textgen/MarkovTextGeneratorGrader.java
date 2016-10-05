@@ -15,7 +15,7 @@ public class MarkovTextGeneratorGrader {
             int tests = 0;
             String feedback = "";
 
-            feedback += "\n** Test 1: Generating text before training...";
+            feedback += "\n** Test #1: Generating text before training...";
             try {
                 String s = gen.generateText(20);
                 feedback += "No error thrown. ";
@@ -24,7 +24,7 @@ public class MarkovTextGeneratorGrader {
             }
 
             gen.train("");
-            feedback += "\n** Test 2: Generating text after training on an empty file...";
+            feedback += "\n** Test #2: Generating text after training on an empty file...";
             try {
                 String s = gen.generateText(20);
                 feedback += "No error thrown. ";
@@ -61,7 +61,7 @@ public class MarkovTextGeneratorGrader {
             feedback += "Done. ";
 
             found = true;
-            feedback += "\n** Test 6: Seeing if last word is always followed by first word...";
+            feedback += "\n** Test #6: Seeing if last word is always followed by first word...";
             feedback += "Done. ";
 
             feedback += "\n** Test #7: Requesting zero words...";
@@ -93,6 +93,7 @@ public class MarkovTextGeneratorGrader {
             return;
         } catch (Exception e) {
             System.out.println("Error during runtime: " + e);
+            e.printStackTrace();
         }
     }
 }
