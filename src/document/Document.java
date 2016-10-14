@@ -69,8 +69,7 @@ public abstract class Document {
 	 */
 	protected int countSyllables(String word)
 	{
-		// TODO: Implement this method so that you can call it from the 
-	    // getNumSyllables method in BasicDocument (module 1) and 
+	    // getNumSyllables method in BasicDocument (module 1) and
 	    // EfficientDocument (module 2).
 		Set<Character> vowels = new HashSet<>();
 		vowels.add('a');
@@ -155,9 +154,7 @@ public abstract class Document {
 	}
 	
 	/** return the Flesch readability score of this document */
-	public double getFleschScore()
-	{
-	    // TODO: Implement this method in week 1
+	public double getFleschScore() {
 		double res = 206.835 - 1.015 * (getNumWords() * 1.0 / getNumSentences()) - 84.6 * (getNumSyllables() * 1.0 / getNumWords());
 	    return new BigDecimal(res).setScale(1, RoundingMode.HALF_UP).doubleValue();
 	}

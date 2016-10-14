@@ -58,7 +58,6 @@ public class EfficientDocument extends Document {
 			}
 		}
 		numSentences = !getText().isEmpty() ? getText().split("[\\.\\?\\!]+").length : 0;
-		// TODO: Finish this method.  Remember the countSyllables method from 
 		// Document.  That will come in handy here.  isWord defined above will also help.
 	}
 

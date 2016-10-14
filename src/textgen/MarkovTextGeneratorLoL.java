@@ -190,8 +190,7 @@ class ListNode
 	
 	public String getRandomNextWord(Random generator)
 	{
-		// TODO: Implement this method
-	    // The random number generator should be passed from 
+	    // The random number generator should be passed from
 	    // the MarkovTextGeneratorLoL class
 	    return nextWords.get(generator.nextInt(nextWords.size()));
 	}

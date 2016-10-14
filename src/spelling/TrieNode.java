@@ -1,6 +1,7 @@
 package spelling;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /** 
@@ -9,16 +10,16 @@ import java.util.Set;
  *
  */
 class TrieNode {
-	private HashMap<Character, TrieNode> children; 
-	private String text;  // Maybe omit for space
+	private final Map<Character, TrieNode> children;
+
 	private boolean isWord;
-	
+	private String text;  // Maybe omit for space
+
 	/** Create a new TrieNode */
-	public TrieNode()
-	{
-		children = new HashMap<Character, TrieNode>();
-		text = "";
-		isWord = false;
+	public TrieNode() {
+		this.children = new HashMap<Character, TrieNode>();
+		this.text = "";
+		this.isWord = false;
 	}
 	
 	/** Create a new TrieNode given a text String to store in it */
@@ -47,8 +48,7 @@ class TrieNode {
 	 * @return The newly created TrieNode, or null if the node is already 
 	 *     in the trie.
 	 */
-	public TrieNode insert(Character c)
-	{
+	public TrieNode insert(Character c) {
 		if (children.containsKey(c)) {
 			return null;
 		}

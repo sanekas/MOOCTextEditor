@@ -34,7 +34,6 @@ public class BasicDocument extends Document
 	@Override
 	public int getNumWords()
 	{
-		//TODO: Implement this method in week 1 according to the comments above.
 		// See the Module 1 support videos if you need help.
 	    return getTokens("[a-zA-Z]+").size();
 	}
@@ -57,7 +56,6 @@ public class BasicDocument extends Document
 		if (getText().isEmpty()) {
 			return 0;
 		}
-	    //TODO: Implement this method.  See the Module 1 support videos 
         // if you need help.
         return getText().split("[\\.\\?\\!]+").length;
 	}
@@ -81,7 +79,6 @@ public class BasicDocument extends Document
 	{
 		int syllablesCounter = 0;
 		List<String> words = getTokens("[a-zA-Z]+");
-	    //TODO: Implement this method in week 1.  See the Module 1 support videos
 		for (String word : words) {
 			syllablesCounter += countSyllables(word);
 		}
