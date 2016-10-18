@@ -17,7 +17,7 @@ class TrieNode {
 
 	/** Create a new TrieNode */
 	public TrieNode() {
-		this.children = new HashMap<Character, TrieNode>();
+		this.children = new HashMap<>();
 		this.text = "";
 		this.isWord = false;
 	}

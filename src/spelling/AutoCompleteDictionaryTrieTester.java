@@ -3,13 +3,13 @@
  */
 package spelling;
 
-import static org.junit.Assert.*;
-
-import java.util.LinkedList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author UC San Diego MOOC team
@@ -137,6 +137,7 @@ public class AutoCompleteDictionaryTrieTester {
 		assertEquals(0, completions.size());
 		
 		completions = smallDict.predictCompletions("",  4);
+		System.out.println(completions);
 		assertEquals(4, completions.size());
 		assertTrue(completions.contains("a"));
 		assertTrue(completions.contains("he"));
