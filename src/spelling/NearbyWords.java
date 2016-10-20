@@ -3,10 +3,7 @@
  */
 package spelling;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -54,16 +51,13 @@ public class NearbyWords implements SpellingSuggest {
 			for(int charCode = (int)'a'; charCode <= (int)'z'; charCode++) {
 				// use StringBuffer for an easy interface to permuting the 
 				// letters in the String
-				StringBuffer sb = new StringBuffer(s);
+				StringBuilder sb = new StringBuilder(s);
 				sb.setCharAt(index, (char)charCode);
 
 				// if the item isn't in the list, isn't the original string, and
 				// (if wordsOnly is true) is a real word, add to the list
-				if(!currentList.contains(sb.toString()) && 
-						(!wordsOnly||dict.isWord(sb.toString())) &&
-						!s.equals(sb.toString())) {
-					currentList.add(sb.toString());
-				}
+				addWortToList(s, sb.toString(), currentList, wordsOnly);
+
 			}
 		}
 	}
@@ -76,7 +70,16 @@ public class NearbyWords implements SpellingSuggest {
 	 * @return
 	 */
 	public void insertions(String s, List<String> currentList, boolean wordsOnly ) {
-		// TODO: Implement this method  
+		for(int index = 0; index < s.length(); index++){
+			for(int charCode = (int)'a'; charCode <= (int)'z'; charCode++) {
+				StringBuilder sb = new StringBuilder(s);
+				sb.insert(index, (char)charCode);
+				addWortToList(s, sb.toString(), currentList, wordsOnly);
+			}
+		}
+		for(int charCode = (int)'a'; charCode <= (int)'z'; charCode++) {
+			addWortToList(s, s + (char) charCode, currentList, wordsOnly);
+		}
 	}
 
 	/** Add to the currentList Strings that are one character deletion away
@@ -86,8 +89,21 @@ public class NearbyWords implements SpellingSuggest {
 	 * @param wordsOnly controls whether to return only words or any String
 	 * @return
 	 */
-	public void deletions(String s, List<String> currentList, boolean wordsOnly ) {
-		// TODO: Implement this method
+	public void deletions(String s, List<String> currentList, boolean wordsOnly) {
+		StringBuilder sb = new StringBuilder(s);
+		for (int i = 0; i < s.length(); ++i) {
+			sb.deleteCharAt(i);
+			addWortToList(s, sb.toString(), currentList, wordsOnly);
+			sb = new StringBuilder(s);
+		}
+	}
+
+	private void addWortToList(String word, String modifiedWord, List<String> currentList, boolean wordsOnly) {
+		if(!currentList.contains(modifiedWord) &&
+				(!wordsOnly||dict.isWord(modifiedWord)) &&
+				!word.equals(modifiedWord)) {
+			currentList.add(modifiedWord);
+		}
 	}
 
 	/** Add to the currentList Strings that are one character deletion away
@@ -98,26 +114,34 @@ public class NearbyWords implements SpellingSuggest {
 	 */
 	@Override
 	public List<String> suggestions(String word, int numSuggestions) {
-
-		// initial variables
-		List<String> queue = new LinkedList<String>();     // String to explore
+		Queue<String> queue = new LinkedList<String>();     // String to explore
 		HashSet<String> visited = new HashSet<String>();   // to avoid exploring the same  
-														   // string multiple times
 		List<String> retList = new LinkedList<String>();   // words to return
-		 
-		
-		// insert first node
+
 		queue.add(word);
 		visited.add(word);
-					
-		// TODO: Implement the remainder of this method, see assignment for algorithm
-		
+
+		while (!queue.isEmpty() && numSuggestions > 0) {
+			String currWord = queue.poll();
+			List<String> neighbours = distanceOne(currWord, true);
+			for (String w : neighbours) {
+				if (!visited.contains(w)) {
+					queue.add(w);
+					visited.add(w);
+					if (dict.isWord(w) && numSuggestions > 0) {
+						numSuggestions--;
+						retList.add(w);
+					}
+				}
+			}
+		}
+
 		return retList;
 
 	}	
 
    public static void main(String[] args) {
-	   /* basic testing code to get started
+	   //basic testing code to get started
 	   String word = "i";
 	   // Pass NearbyWords any Dictionary implementation you prefer
 	   Dictionary d = new DictionaryHashSet();
@@ -131,7 +155,7 @@ public class NearbyWords implements SpellingSuggest {
 	   List<String> suggest = w.suggestions(word, 10);
 	   System.out.println("Spelling Suggestions for \""+word+"\" are:");
 	   System.out.println(suggest);
-	   */
+
    }
 
 }
